@@ -119,3 +119,13 @@
 * Use special `import()` operator to import some heavy module that might only be accessed in a rare case
   * returns a promise
 
+### Circular Dependencies
+* ESM is better than CommonJS at handling circular dependencies
+  * Module exports are just read-only live bindings
+  * Swapping the import ordering of modules that form circular dependencies doesn't changea anything, whereas it does for CommonJS
+  * Paths are ignored if that module has already been imported
+
+### 3 Phases of ESM imports
+1. Parsing: The dependency graph is explored in a depth first fashion. Every module is visited only once
+2. Instantiation: The interpreter walks the tree generated in phase 1 from the bottom to the top, building out a map of the exported names from each module. The names are passed to the module importing that dependecy.
+3. Evaluation: All code in every file is executed (bottom-up).
